@@ -1,83 +1,388 @@
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Minimal, elegant, interactive resume website with dark/light mode." />
+  <style>
+    /* =============================
+       Design Tokens (CSS Variables)
+       ============================= */
+    :root {
+      --bg: #ffffff;
+      --card: #f7f7f8;
+      --text: #1c1c1c;
+      --muted: #666a70;
+      --accent: #1f6feb;   /* classic muted blue */
+      --accent-2: #1aa3a3; /* teal accent for subtle highlights */
+      --border: #e7e7ea;
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --glow: 0 0 0 rgba(31, 111, 235, 0.0);
+    }
 
+    :root.dark {
+      --bg: #0e0f12;
+      --card: #13151a;
+      --text: #eef2f7;
+      --muted: #9aa4b2;
+      --accent: #8ab4ff;   /* softened link blue in dark */
+      --accent-2: #7fd6d6; /* teal accent in dark */
+      --border: #22252c;
+      --shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      --glow: 0 0 30px rgba(138, 180, 255, 0.35);
+    }
 
-<section class="hero">
-<h1>Your Name</h1>
-<p>Future-Ready Professional | Minimalist & Futuristic Design Enthusiast</p>
-</section>
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light) { color-scheme: dark; }
+    }
 
+    /* =============
+       Base Styles
+       ============= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-<section id="about" class="about">
-<h2>About Me</h2>
-<p>[Placeholder for a short bio introducing yourself, your background, and goals.]</p>
-</section>
+    .container { width: min(1100px, 92%); margin: 0 auto; }
 
+    /* ==========
+       Navbar
+       ========== */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(180%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; }
 
-<section id="experience" class="experience">
-<h2>Experience</h2>
-<div class="timeline">
-<div class="timeline-item">
-<h3>Job Title @ Company</h3>
-<small>2021 - Present</small>
-<p>[Brief description of your role and achievements]</p>
-</div>
-<div class="timeline-item">
-<h3>Job Title @ Company</h3>
-<small>2019 - 2021</small>
-<p>[Brief description of your role and achievements]</p>
-</div>
-</div>
-</section>
+    .nav ul { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+    .nav a { font-weight: 600; opacity: .9; }
+    .nav a.active { color: var(--accent-2); }
 
+    .toggle {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); background: var(--card);
+      padding: 8px 12px; border-radius: 999px; cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .toggle svg { width: 18px; height: 18px; }
+    .toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-<section id="skills" class="skills-section">
-<h2>Skills</h2>
-<div class="skills">
-<div class="skill">HTML</div>
-<div class="skill">CSS</div>
-<div class="skill">JavaScript</div>
-<div class="skill">React</div>
-<div class="skill">[Add More]</div>
-</div>
-</section>
+    /* ==========
+       Hero
+       ========== */
+    header.hero { position: relative; padding: clamp(48px, 10vw, 120px) 0 48px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(24px, 4vw, 64px); align-items: center; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } }
 
+    .pfp-wrap { position: relative; width: 220px; height: 220px; margin-inline: auto; }
+    .pfp-ring { position: absolute; inset: -10px; border-radius: 999px; background: conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent)); filter: blur(10px); opacity: .35; }
+    .pfp { position: relative; width: 100%; height: 100%; border-radius: 999px; border: 1px solid var(--border); background: var(--card) center/cover no-repeat; box-shadow: var(--shadow), var(--glow); }
+    /* Placeholder image (replace with your own by setting background-image inline style) */
+    .pfp { background-image: radial-gradient(circle at 50% 35%, #cdd9e5 0 18%, transparent 18%), radial-gradient(circle at 50% 65%, #9bb1c9 0 18%, transparent 18%), linear-gradient(180deg, #e9eef5, #b7c7d9); }
 
-<section id="projects" class="projects-section">
-<h2>Projects</h2>
-<div class="projects">
-<div class="project-card">
-<h3>Project Title</h3>
-<p>[Brief description of the project]</p>
-</div>
-<div class="project-card">
-<h3>Project Title</h3>
-<p>[Brief description of the project]</p>
-</div>
-</div>
-</section>
+    .kicker { font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+    .title { font-size: clamp(32px, 6vw, 54px); line-height: 1.1; margin: 8px 0 12px; font-weight: 800; }
+    .subtitle { font-size: clamp(16px, 2.4vw, 20px); color: var(--muted); }
+    .typing { border-right: 2px solid var(--accent); white-space: nowrap; overflow: hidden; }
 
+    .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow); font-weight: 600; }
+    .btn.primary { background: var(--accent); color: white; border-color: transparent; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.08); text-decoration: none; }
 
-<section id="contact" class="contact-section">
-<h2>Contact</h2>
-<form class="contact-form">
-<input type="text" placeholder="Your Name" required>
-<input type="email" placeholder="Your Email" required>
-<textarea placeholder="Your Message" rows="5" required></textarea>
-<button type="submit">Send</button>
-</form>
-</section>
+    /* ==========
+       Sections
+       ========== */
+    section { padding: clamp(56px, 8vw, 96px) 0; }
+    .section-title { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; font-size: clamp(22px, 3vw, 28px); }
+    .bar { width: 38px; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; }
 
+    .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .card { grid-column: span 6; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card:hover { transform: translateY(-4px); border-color: color-mix(in oklab, var(--accent) 45%, var(--border)); box-shadow: 0 20px 40px rgba(0,0,0,.10); }
+    @media (max-width: 900px) { .card { grid-column: span 12; } }
 
-<footer>
-<p>&copy; 2025 Your Name. All rights reserved.</p>
-<p>
-<a href="#">LinkedIn</a> |
-<a href="#">GitHub</a> |
-<a href="#">Twitter</a>
-</p>
-</footer>
+    .muted { color: var(--muted); font-size: 14px; }
+
+    /* Experience timeline cards */
+    .xp { position: relative; padding-left: 22px; }
+    .xp::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), var(--accent-2)); border-radius: 2px; }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--accent); box-shadow: var(--glow); display: inline-block; margin-right: 8px; }
+
+    /* Skills */
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); background: linear-gradient(180deg, color-mix(in oklab, var(--card) 88%, transparent), var(--card)); font-weight: 600; font-size: 13px; transition: transform .18s ease, box-shadow .18s ease; }
+    .tag:hover { transform: translateY(-2px); box-shadow: var(--glow); }
+
+    /* Projects */
+    .project { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: center; padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow); overflow: clip; }
+    .project:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.12); border-color: color-mix(in oklab, var(--accent) 45%, var(--border)); }
+    .project img { width: 100%; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    .project h3 { margin: 4px 0 6px; }
+    @media (max-width: 800px){ .project { grid-template-columns: 1fr; } }
+
+    /* Contact */
+    form { display: grid; gap: 12px; max-width: 560px; }
+    input, textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+    textarea { min-height: 120px; resize: vertical; }
+    button[type="submit"] { cursor: pointer; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--muted); }
+
+    /* =============
+       Animations
+       ============= */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    .hover-underline { position: relative; }
+    .hover-underline::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .25s ease; }
+    .hover-underline:hover::after { width: 100%; }
+  </style>
+</head>
+<body>
+  <!-- =================
+       Nav + Theme Toggle
+       ================= -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <!-- Minimal mark -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 5-7 5-7-5 7-5zm0 8l7 5-7 5-7-5 7-5z" stroke="currentColor" stroke-width="1.2"/></svg>
+        <span>Your Name</span>
+      </div>
+      <ul>
+        <li><a class="hover-underline" href="#about">About</a></li>
+        <li><a class="hover-underline" href="#experience">Experience</a></li>
+        <li><a class="hover-underline" href="#skills">Skills</a></li>
+        <li><a class="hover-underline" href="#projects">Projects</a></li>
+        <li><a class="hover-underline" href="#contact">Contact</a></li>
+      </ul>
+      <button id="themeToggle" class="toggle" aria-label="Toggle dark/light" title="Toggle dark/light">
+        <svg id="icon-sun" viewBox="0 0 24 24" fill="none"><path d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5 5 3.5 3.5M20.5 20.5 19 19M5 19 3.5 20.5M20.5 3.5 19 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 7 7 0 1 0 20 15.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======= Hero ======= -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="kicker">Available for opportunities</div>
+        <h1 class="title">Hi, I’m Your Name</h1>
+        <p class="subtitle">I’m a <span id="typing" class="typing" aria-live="polite">Product Designer</span></p>
+        <div class="cta-row">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Contact Me</a>
+          <a class="btn" href="resume.pdf" download>Download Resume</a>
+        </div>
+      </div>
+      <div class="pfp-wrap reveal">
+        <div class="pfp-ring" aria-hidden="true"></div>
+        <!-- Replace the CSS background of .pfp with your photo using: style="background-image:url('your-photo.jpg')" -->
+        <div class="pfp" role="img" aria-label="Portrait placeholder"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======= About ======= -->
+    <section id="about" class="reveal">
+      <div class="container">
+        <div class="section-title"><span class="bar"></span><h2>About</h2></div>
+        <p class="muted" style="max-width: 70ch;">Write a short, crisp bio here. Example: I’m a multidisciplinary professional with 5+ years of experience delivering user-centered products. I care about clarity, performance, and creating delightful yet minimal experiences.</p>
+      </div>
+    </section>
+
+    <!-- ======= Experience ======= -->
+    <section id="experience" class="reveal">
+      <div class="container">
+        <div class="section-title"><span class="bar"></span><h2>Experience</h2></div>
+        <div class="cards">
+          <article class="card xp">
+            <h3><span class="dot"></span>Senior Role — Company Name</h3>
+            <div class="muted">2022 — Present • Location</div>
+            <ul>
+              <li>Led X initiative improving Y metric by Z%.</li>
+              <li>Collaborated with cross‑functional teams to ship A, B, C.</li>
+              <li>Mentored N teammates and established guidelines.</li>
+            </ul>
+          </article>
+          <article class="card xp">
+            <h3><span class="dot" style="background:var(--accent-2)"></span>Role — Company Name</h3>
+            <div class="muted">2020 — 2022 • Location</div>
+            <ul>
+              <li>Delivered feature set across web and mobile.</li>
+              <li>Optimized performance, reducing load time by 40%.</li>
+              <li>Drove adoption with improved onboarding.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Skills ======= -->
+    <section id="skills" class="reveal">
+      <div class="container">
+        <div class="section-title"><span class="bar"></span><h2>Skills</h2></div>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Analytics</span>
+          <span class="tag">Writing</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Projects ======= -->
+    <section id="projects" class="reveal">
+      <div class="container">
+        <div class="section-title"><span class="bar"></span><h2>Projects</h2></div>
+
+        <div class="cards">
+          <article class="project" style="grid-column: span 12;">
+            <img src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%23c9d6ff' offset='0'/><stop stop-color='%23e2fcf7' offset='1'/></linearGradient></defs><rect fill='url(%23g)' width='100%' height='100%'/><g fill='%239aa4b2' font-family='Segoe UI' font-size='32'><text x='50%' y='50%' text-anchor='middle'>Project Image Placeholder</text></g></svg>" alt="Project preview placeholder" />
+            <div>
+              <h3>Project Title</h3>
+              <p class="muted">Brief one‑liner about what this project does and why it matters. Keep it concise and outcome‑focused.</p>
+              <div class="cta-row" style="justify-content:flex-start">
+                <a class="btn" href="#">Live Demo</a>
+                <a class="btn" href="#">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" style="grid-column: span 6;">
+            <h3>Case Study A</h3>
+            <p class="muted">2–3 lines describing the problem, approach, and impact.</p>
+            <a class="hover-underline" href="#">Read more →</a>
+          </article>
+          <article class="card" style="grid-column: span 6;">
+            <h3>Case Study B</h3>
+            <p class="muted">2–3 lines describing the problem, approach, and impact.</p>
+            <a class="hover-underline" href="#">Read more →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Contact ======= -->
+    <section id="contact" class="reveal">
+      <div class="container">
+        <div class="section-title"><span class="bar"></span><h2>Contact</h2></div>
+        <form action="https://formspree.io/f/your-id" method="POST">
+          <input name="name" type="text" placeholder="Your name" required />
+          <input name="email" type="email" placeholder="Your email" required />
+          <textarea name="message" placeholder="Write your message…" required></textarea>
+          <button class="btn primary" type="submit">Send Message</button>
+          <p class="muted">Or email directly: <a href="mailto:you@email.com">you@email.com</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <small>© <span id="year"></span> Your Name. All rights reserved.</small>
+      <div style="display:flex; gap:12px;">
+        <a class="hover-underline" href="#" aria-label="LinkedIn">LinkedIn</a>
+        <a class="hover-underline" href="#" aria-label="GitHub">GitHub</a>
+        <a class="hover-underline" href="#" aria-label="Twitter / X">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // =============================
+    // Theme Toggle with localStorage
+    // =============================
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        root.classList.add('dark');
+        root.classList.remove('light');
+        iconSun.style.display = 'none';
+        iconMoon.style.display = 'block';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        root.classList.remove('dark');
+        root.classList.add('light');
+        iconSun.style.display = 'block';
+        iconMoon.style.display = 'none';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    // Initialize theme
+    const saved = localStorage.getItem('theme');
+    if (saved) setTheme(saved); else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+    toggle.addEventListener('click', () => {
+      const isDark = root.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // =============================
+    // Typing effect for role line
+    // =============================
+    const roles = ['Product Designer', 'Frontend Developer', 'Content Strategist'];
+    const typingEl = document.getElementById('typing');
+    let idx = 0, pos = 0, deleting = false;
+    function typeLoop() {
+      const word = roles[idx % roles.length];
+      typingEl.textContent = deleting ? word.slice(0, pos--) : word.slice(0, pos++);
+      if (!deleting && pos === word.length + 5) deleting = true; // pause
+      if (deleting && pos === 0) { deleting = false; idx++; }
+      setTimeout(typeLoop, deleting ? 60 : 90);
+    }
+    typeLoop();
+
+    // =============================
+    // Reveal on scroll (IntersectionObserver)
+    // =============================
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // =============================
+    // Active link highlight while scrolling
+    // =============================
+    const sections = ['about','experience','skills','projects','contact'];
+    const links = Array.from(document.querySelectorAll('.nav a'));
+    const sectionEls = sections.map(id => document.getElementById(id));
+    function setActive() {
+      let current = null;
+      const scrollY = window.scrollY + 120; // offset for sticky nav
+      sectionEls.forEach((el,i)=>{
+        if (el.offsetTop <= scrollY) current = sections[i];
+      });
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    }
+    document.addEventListener('scroll', setActive, { passive: true });
+    window.addEventListener('load', () => { setActive(); document.getElementById('year').textContent = new Date().getFullYear(); });
+  </script>
 </body>
 </html>
