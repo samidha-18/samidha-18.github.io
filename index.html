@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name — Portfolio</title>
+  <title>Samidha — Portfolio</title>
   <meta name="description" content="Minimal, elegant, interactive resume website with dark/light mode." />
   <style>
     /* =============================
@@ -13,11 +13,11 @@
       --card: #f7f7f8;
       --text: #1c1c1c;
       --muted: #666a70;
-      --accent: #1f6feb;   /* classic muted blue */
-      --accent-2: #1aa3a3; /* teal accent for subtle highlights */
+      --accent: #f4d35e;   /* pastel yellow */
+      --accent-2: #e0b94d; /* deeper yellow for hover */
       --border: #e7e7ea;
       --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
-      --glow: 0 0 0 rgba(31, 111, 235, 0.0);
+      --glow: 0 0 0 rgba(244, 211, 94, 0.0);
     }
 
     :root.dark {
@@ -25,11 +25,11 @@
       --card: #13151a;
       --text: #eef2f7;
       --muted: #9aa4b2;
-      --accent: #8ab4ff;   /* softened link blue in dark */
-      --accent-2: #7fd6d6; /* teal accent in dark */
+      --accent: #ffd972;   /* glowing yellow */
+      --accent-2: #e0b94d; /* deeper shade */
       --border: #22252c;
       --shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-      --glow: 0 0 30px rgba(138, 180, 255, 0.35);
+      --glow: 0 0 30px rgba(255, 217, 114, 0.35);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -90,7 +90,6 @@
     .pfp-wrap { position: relative; width: 220px; height: 220px; margin-inline: auto; }
     .pfp-ring { position: absolute; inset: -10px; border-radius: 999px; background: conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent)); filter: blur(10px); opacity: .35; }
     .pfp { position: relative; width: 100%; height: 100%; border-radius: 999px; border: 1px solid var(--border); background: var(--card) center/cover no-repeat; box-shadow: var(--shadow), var(--glow); }
-    /* Placeholder image (replace with your own by setting background-image inline style) */
     .pfp { background-image: radial-gradient(circle at 50% 35%, #cdd9e5 0 18%, transparent 18%), radial-gradient(circle at 50% 65%, #9bb1c9 0 18%, transparent 18%), linear-gradient(180deg, #e9eef5, #b7c7d9); }
 
     .kicker { font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
@@ -141,7 +140,8 @@
     button[type="submit"] { cursor: pointer; }
 
     /* Footer */
-    footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--muted); text-align: center; }
+    footer p { margin: 0; }
 
     /* =============
        Animations
@@ -161,9 +161,8 @@
   <nav class="nav">
     <div class="container nav-inner">
       <div class="brand">
-        <!-- Minimal mark -->
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 5-7 5-7-5 7-5zm0 8l7 5-7 5-7-5 7-5z" stroke="currentColor" stroke-width="1.2"/></svg>
-        <span>Your Name</span>
+        <span>Samidha</span>
       </div>
       <ul>
         <li><a class="hover-underline" href="#about">About</a></li>
@@ -183,8 +182,8 @@
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <div class="kicker">Available for opportunities</div>
-        <h1 class="title">Hi, I’m Your Name</h1>
+        <div class="kicker">Friendly writer next door ✍️</div>
+        <h1 class="title">Hi, I’m Samidha </h1>
         <p class="subtitle">I’m a <span id="typing" class="typing" aria-live="polite">Product Designer</span></p>
         <div class="cta-row">
           <a class="btn primary" href="#projects">View Projects</a>
@@ -194,7 +193,6 @@
       </div>
       <div class="pfp-wrap reveal">
         <div class="pfp-ring" aria-hidden="true"></div>
-        <!-- Replace the CSS background of .pfp with your photo using: style="background-image:url('your-photo.jpg')" -->
         <div class="pfp" role="img" aria-label="Portrait placeholder"></div>
       </div>
     </div>
@@ -219,7 +217,7 @@
             <div class="muted">2022 — Present • Location</div>
             <ul>
               <li>Led X initiative improving Y metric by Z%.</li>
-              <li>Collaborated with cross‑functional teams to ship A, B, C.</li>
+              <li>Collaborated with cross-functional teams to ship A, B, C.</li>
               <li>Mentored N teammates and established guidelines.</li>
             </ul>
           </article>
@@ -259,10 +257,10 @@
 
         <div class="cards">
           <article class="project" style="grid-column: span 12;">
-            <img src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%23c9d6ff' offset='0'/><stop stop-color='%23e2fcf7' offset='1'/></linearGradient></defs><rect fill='url(%23g)' width='100%' height='100%'/><g fill='%239aa4b2' font-family='Segoe UI' font-size='32'><text x='50%' y='50%' text-anchor='middle'>Project Image Placeholder</text></g></svg>" alt="Project preview placeholder" />
+            <img src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%23fff6d5' offset='0'/><stop stop-color='%23fff1a6' offset='1'/></linearGradient></defs><rect fill='url(%23g)' width='100%' height='100%'/><g fill='%239aa4b2' font-family='Segoe UI' font-size='32'><text x='50%' y='50%' text-anchor='middle'>Project Image Placeholder</text></g></svg>" alt="Project preview placeholder" />
             <div>
               <h3>Project Title</h3>
-              <p class="muted">Brief one‑liner about what this project does and why it matters. Keep it concise and outcome‑focused.</p>
+              <p class="muted">Brief one-liner about what this project does and why it matters. Keep it concise and outcome-focused.</p>
               <div class="cta-row" style="justify-content:flex-start">
                 <a class="btn" href="#">Live Demo</a>
                 <a class="btn" href="#">GitHub</a>
@@ -301,7 +299,7 @@
 
   <footer>
     <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <small>© <span id="year"></span> Your Name. All rights reserved.</small>
+      <small>© <span id="year"></span> © 2025 Built with ❤️| All rights reserved.</small>
       <div style="display:flex; gap:12px;">
         <a class="hover-underline" href="#" aria-label="LinkedIn">LinkedIn</a>
         <a class="hover-underline" href="#" aria-label="GitHub">GitHub</a>
@@ -335,7 +333,6 @@
       }
     }
 
-    // Initialize theme
     const saved = localStorage.getItem('theme');
     if (saved) setTheme(saved); else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
 
@@ -344,38 +341,32 @@
       setTheme(isDark ? 'light' : 'dark');
     });
 
-    // =============================
-    // Typing effect for role line
-    // =============================
+    // Typing effect
     const roles = ['Product Designer', 'Frontend Developer', 'Content Strategist'];
     const typingEl = document.getElementById('typing');
     let idx = 0, pos = 0, deleting = false;
     function typeLoop() {
       const word = roles[idx % roles.length];
       typingEl.textContent = deleting ? word.slice(0, pos--) : word.slice(0, pos++);
-      if (!deleting && pos === word.length + 5) deleting = true; // pause
+      if (!deleting && pos === word.length + 5) deleting = true;
       if (deleting && pos === 0) { deleting = false; idx++; }
       setTimeout(typeLoop, deleting ? 60 : 90);
     }
     typeLoop();
 
-    // =============================
-    // Reveal on scroll (IntersectionObserver)
-    // =============================
+    // Reveal on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); observer.unobserve(e.target); } });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // =============================
-    // Active link highlight while scrolling
-    // =============================
+    // Active link highlight
     const sections = ['about','experience','skills','projects','contact'];
     const links = Array.from(document.querySelectorAll('.nav a'));
     const sectionEls = sections.map(id => document.getElementById(id));
     function setActive() {
       let current = null;
-      const scrollY = window.scrollY + 120; // offset for sticky nav
+      const scrollY = window.scrollY + 120;
       sectionEls.forEach((el,i)=>{
         if (el.offsetTop <= scrollY) current = sections[i];
       });
