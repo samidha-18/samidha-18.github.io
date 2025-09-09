@@ -1,0 +1,81 @@
+<html lang="en">
+}
+attachProductListeners();
+updateCartUI();
+
+
+// modal add to cart
+el('#modal-add').addEventListener('click', ()=>{
+const qty = Number(el('#modal-qty').value || 1);
+addToCart(currentProduct.id, qty);
+closeModal();
+});
+
+
+// quick hero promo image rotation
+(function setPromo(){
+const images = products.map(p=>p.img);
+let i=0; const elp = el('#promo');
+function show(){ elp.style.backgroundImage = `url(${images[i%images.length]})`; i++; }
+show(); setInterval(show,4500);
+})();
+
+
+// theme toggle (light/dim)
+el('#themeToggle').addEventListener('click', ()=>{
+const root = document.documentElement;
+const isDim = root.style.getPropertyValue('--bg') === '#FAFBF8';
+if(isDim){
+// switch to slightly warmer
+root.style.setProperty('--bg','#FFF9F0');
+el('#themeToggle').textContent = '☀️';
+} else {
+root.style.setProperty('--bg','#FAFBF8');
+el('#themeToggle').textContent = '🌙';
+}
+});
+
+
+// CTA sample quickflow
+el('#cta-sample').addEventListener('click', ()=>{
+// add a few items as a sample pack
+addToCart(1,1); addToCart(3,1); addToCart(5,1);
+el('#open-cart').click();
+});
+
+
+// Wire up modal listeners again after DOM changes
+document.addEventListener('click', (e)=>{
+if(e.target.matches('[data-add]')){
+const id = e.target.dataset.add; addToCart(id);
+}
+});
+
+
+// ensure product listeners reattach after search/filter
+const observer = new MutationObserver(()=>attachProductListeners());
+observer.observe(el('#products'),{childList:true});
+
+
+</script>
+
+
+<!--
+Customization notes & more options:
+- Replace product images and data in the `products` array.
+- To add categories, update `.filter` chips in HTML and adjust filtering logic.
+- For e-commerce: integrate Razorpay/Stripe checkout in the #checkout handler and connect to serverless functions (Vercel/Netlify) or a backend.
+
+
+Alternate palettes (quick ideas):
+1) Soft Mint: --accent: #A7F3D0; --accent-600:#6EE7B7; --accent-800:#34D399
+2) Coral Warm: --accent: #FFD6C2; --accent-600:#FFB59E; --accent-800:#FF8A66
+3) Lemon Bright (current): --accent: #F6D365; --accent-600:#F0C541; --accent-800:#CF9A2B
+
+
+Want me to produce a multi-page template (Products page, Product detail pages, CMS JSON) or convert this to a React app (single-file) for Vercel/Netlify? Tell me which and I'll output it.
+-->
+
+
+</body>
+</html>
