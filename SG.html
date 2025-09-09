@@ -1,81 +1,440 @@
 <html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrightGoods — FMCG Minimal</title>
+  <meta name="description" content="Minimal, attractive FMCG landing site. Static, interactive, ready for GitHub Pages.">
+  <style>
+    /* ==========================
+       COLOR PALETTE (light theme)
+       Update these variables to change the theme quickly.
+       ========================== */
+    :root{
+      --bg: #FAFBF8;              /* very light */
+      --surface: #FFFFFF;         /* card background */
+      --muted: #6B6B6B;          /* muted text */
+      --text: #222222;           /* primary text */
+      --accent: #F6D365;         /* soft yellow */
+      --accent-600: #F0C541;     /* stronger yellow */
+      --accent-800: #CF9A2B;     /* darker yellow */
+      --success: #7BC47F;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 6px 18px rgba(35,35,35,0.06);
+      --radius: 12px;
+      --mono: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* ===============
+       Base
+       =============== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--mono);
+      background:linear-gradient(180deg,var(--bg), #fff);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding-bottom:60px;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+
+    /* ===============
+       Header
+       =============== */
+    header{
+      position:sticky;top:12px;z-index:40;backdrop-filter: blur(6px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border-radius:14px;padding:12px;box-shadow:var(--shadow);
+      margin:8px auto 30px;max-width:1100px
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-600));display:flex;align-items:center;justify-content:center;color:#2b2b2b;font-weight:700}
+    .brand h1{font-size:18px;margin:0}
+    nav a{margin-left:14px;font-size:14px;color:var(--muted)}
+    .nav-actions{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;border:none}
+    .ghost{background:transparent;padding:6px 10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06)}
+
+    /* ===============
+       Hero
+       =============== */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:18px 0}
+    .eyebrow{font-size:13px;color:var(--accent-800);font-weight:700}
+    .headline{font-size:34px;margin:10px 0 8px}
+    .lead{color:var(--muted);max-width:60%}
+
+    .hero-card{background:linear-gradient(180deg,var(--surface),#fff);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+    .hero-image{height:320px;border-radius:10px;background-size:cover;background-position:center}
+
+    /* ===============
+       Controls (search+filters)
+       =============== */
+    .controls{display:flex;gap:10px;align-items:center;margin:22px 0}
+    .search{flex:1;display:flex;gap:8px;align-items:center}
+    .search input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent}
+    .filter{display:flex;gap:8px}
+    .chip{padding:8px 10px;border-radius:999px;font-size:13px;border:1px solid rgba(0,0,0,0.06);background:transparent;cursor:pointer}
+    .chip.active{background:var(--accent);box-shadow:0 6px 18px rgba(240,197,65,0.12)}
+
+    /* ===============
+       Product grid
+       =============== */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+    .card{background:var(--surface);border-radius:12px;padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+    .card .thumb{height:160px;border-radius:10px;background-size:cover;background-position:center}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:800}
+    .small{font-size:13px;color:var(--muted)}
+    .actions{display:flex;gap:8px}
+    .add{flex:1}
+
+    /* ===============
+       Cart drawer
+       =============== */
+    .cart-button{position:relative}
+    .badge{position:absolute;top:-6px;right:-6px;background:var(--accent-800);color:#fff;padding:4px 7px;border-radius:999px;font-size:12px}
+
+    .drawer{position:fixed;right:18px;bottom:18px;width:320px;background:var(--surface);border-radius:14px;padding:12px;box-shadow:0 18px 50px rgba(35,35,35,0.12)}
+    .drawer h3{margin:0 0 8px}
+    .cart-item{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+    .cart-item img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+
+    /* ===============
+       Modal
+       =============== */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(10,10,10,0.35);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{background:var(--surface);border-radius:14px;padding:18px;max-width:880px;width:100%;box-shadow:0 22px 60px rgba(0,0,0,0.18)}
+    .modal.show{animation:pop .16s ease both}
+    @keyframes pop{from{transform:translateY(10px) scale(.99);opacity:0}to{transform:none;opacity:1}}
+
+    /* ===============
+       Footer
+       =============== */
+    footer{margin-top:40px;padding-top:30px;border-top:1px dashed rgba(0,0,0,0.04);color:var(--muted)}
+
+    /* ===============
+       Responsive tweaks
+       =============== */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .lead{max-width:100%}
+      header{margin:6px 12px}
+      .container{padding:18px}
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav container" role="navigation" aria-label="Main Navigation">
+    <div class="brand">
+      <div class="logo">BG</div>
+      <div>
+        <h1>BrightGoods</h1>
+        <div class="small">Naturally better FMCG</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <nav aria-label="secondary nav">
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="ghost" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <button class="btn cart-button" id="open-cart" aria-haspopup="dialog">Cart <span class="badge" id="cart-count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Now in stores</div>
+      <h2 class="headline">Simple, fresh, everyday essentials.</h2>
+      <p class="lead">High-quality FMCG products crafted for everyday life — clean ingredients, easy packaging, and fair prices. Browse our bestsellers below or search to find what you need.</p>
+
+      <div class="controls">
+        <div class="search">
+          <input id="search" placeholder="Search products, e.g. "Honey"" aria-label="Search products">
+        </div>
+        <div class="filter" role="tablist" aria-label="Filter by category">
+          <button class="chip active" data-cat="all">All</button>
+          <button class="chip" data-cat="beverages">Beverages</button>
+          <button class="chip" data-cat="snacks">Snacks</button>
+          <button class="chip" data-cat="pantry">Pantry</button>
+        </div>
+      </div>
+
+      <div id="products" class="grid" aria-live="polite"></div>
+
+    </div>
+
+    <aside class="hero-card">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-600));display:flex;align-items:center;justify-content:center;font-weight:800">B</div>
+        <div>
+          <strong>BrightGoods — Starter Pack</strong>
+          <div class="small">Curated essentials — try the sampler at a special price.</div>
+        </div>
+      </div>
+      <div style="margin-top:14px" class="hero-image" id="promo" aria-hidden="true"></div>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="cta-sample">Buy Sample</button>
+        <button class="ghost" id="cta-learn">Learn More</button>
+      </div>
+    </aside>
+  </section>
+
+  <section id="about" style="margin-top:40px">
+    <h3>About BrightGoods</h3>
+    <p class="small">We make everyday staples that feel premium — minimal packaging, no nonsense ingredients, and a focus on taste and value. Our products are designed for modern kitchens and busy lives.</p>
+  </section>
+
+  <footer id="contact">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <strong>BrightGoods Pvt Ltd</strong>
+        <div class="small">Made in India • Sustainable packaging</div>
+      </div>
+      <div class="small">Questions? <a href="mailto:hello@brightgoods.example">hello@brightgoods.example</a></div>
+    </div>
+  </footer>
+</main>
+
+<!-- Cart Drawer -->
+<div class="drawer" id="cart" aria-hidden="true" style="display:none">
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+    <div class="small">Total:</div>
+    <div id="cart-total" style="font-weight:800">₹0</div>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px">
+    <button class="btn" id="checkout">Checkout</button>
+    <button class="ghost" id="clear-cart">Clear</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div style="display:flex;gap:18px">
+      <div style="flex:1">
+        <div id="modal-image" style="height:320px;border-radius:10px;background-size:cover;background-position:center"></div>
+      </div>
+      <div style="width:320px;display:flex;flex-direction:column;gap:10px">
+        <h2 id="modal-title">Product</h2>
+        <div class="small" id="modal-desc">Description</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto">
+          <div style="font-size:18px;font-weight:800" id="modal-price">₹0</div>
+          <div style="display:flex;gap:8px;width:160px">
+            <input id="modal-qty" type="number" min="1" value="1" style="width:60px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
+            <button class="btn" id="modal-add">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ Sample product data (replace with real content) ============
+const products = [
+  {id:1,title:'Golden Honey 250g',price:149,category:'pantry',img:'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=800&q=60',desc:'Pure multi-floral honey.'},
+  {id:2,title:'Spark Cola 330ml',price:39,category:'beverages',img:'https://images.unsplash.com/photo-1542042162788-3b5d5c6f5f5b?auto=format&fit=crop&w=800&q=60',desc:'Crisp and fizzy.'},
+  {id:3,title:'Crunchy Oats Bar',price:59,category:'snacks',img:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=60',desc:'Oats, honey and nuts.'},
+  {id:4,title:'Everyday Cooking Oil 1L',price:199,category:'pantry',img:'https://images.unsplash.com/photo-1587314168487-6f4a1c6b6f75?auto=format&fit=crop&w=800&q=60',desc:'Light and healthy.'},
+  {id:5,title:'Green Tea Sachets',price:129,category:'beverages',img:'https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?auto=format&fit=crop&w=800&q=60',desc:'Refreshing green tea.'},
+  {id:6,title:'Salted Cashews 200g',price:199,category:'snacks',img:'https://images.unsplash.com/photo-1523986301870-7f6c4b2ff3d0?auto=format&fit=crop&w=800&q=60',desc:'Premium cashews.'}
+];
+
+// ============ Utilities ============
+const el = (s,ctx=document)=>ctx.querySelector(s);
+const els = (s,ctx=document)=>[...ctx.querySelectorAll(s)];
+
+// ============ Render products ============
+function renderProducts(list){
+  const wrap = el('#products');
+  wrap.innerHTML = '';
+  list.forEach(p=>{
+    const card = document.createElement('article');card.className='card';
+    card.innerHTML = `
+      <div class="thumb" style="background-image:url(${p.img})" role="img" aria-label="${p.title}"></div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <strong>${p.title}</strong>
+            <div class="small">${p.category}</div>
+          </div>
+          <div class="price">₹${p.price}</div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px" class="actions">
+          <button class="chip" data-id="${p.id}" aria-label="Quick view">Quick view</button>
+          <button class="btn add" data-add="${p.id}">Add</button>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+renderProducts(products);
+
+// ============ Search & Filter ============
+const search = el('#search');
+search.addEventListener('input',()=> applyFilters());
+
+els('.chip').forEach(c=>c.addEventListener('click', (e)=>{
+  // category chips in filter (top) share class .chip
+  const cat = e.currentTarget.dataset.cat;
+  els('.chip').forEach(x=>x.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  applyFilters();
+}));
+
+function applyFilters(){
+  const q = search.value.trim().toLowerCase();
+  const active = els('.filter .chip').find(x=>x.classList.contains('active'))?.dataset.cat || 'all';
+  let filtered = products.filter(p=> (active==='all' || p.category===active));
+  if(q) filtered = filtered.filter(p=> (p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+  renderProducts(filtered);
+  attachProductListeners();
+}
+
+// ============ Product modal & quick view ============
+const modalBackdrop = el('#modal-backdrop');
+let currentProduct = null;
+function openModal(id){
+  currentProduct = products.find(p=>p.id==id);
+  el('#modal-title').textContent = currentProduct.title;
+  el('#modal-desc').textContent = currentProduct.desc;
+  el('#modal-price').textContent = '₹'+currentProduct.price;
+  el('#modal-image').style.backgroundImage = `url(${currentProduct.img})`;
+  el('#modal-qty').value = 1;
+  modalBackdrop.style.display='flex';
+  modalBackdrop.setAttribute('aria-hidden','false');
+}
+function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
+modalBackdrop.addEventListener('click',(e)=>{ if(e.target===modalBackdrop) closeModal(); });
+window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+
+// ============ Cart (localStorage-backed) ============
+function getCart(){ return JSON.parse(localStorage.getItem('bg_cart')||'{}'); }
+function saveCart(c){ localStorage.setItem('bg_cart', JSON.stringify(c)); updateCartUI(); }
+function addToCart(id,qty=1){ const cart = getCart(); cart[id] = (cart[id]||0) + Number(qty); saveCart(cart); }
+function removeFromCart(id){ const cart = getCart(); delete cart[id]; saveCart(cart); }
+function clearCart(){ localStorage.removeItem('bg_cart'); updateCartUI(); }
+
+function updateCartUI(){
+  const cart = getCart();
+  const count = Object.values(cart).reduce((s,n)=>s+n,0);
+  el('#cart-count').textContent = count;
+  const itemsWrap = el('#cart-items'); itemsWrap.innerHTML='';
+  let total=0;
+  for(const id in cart){
+    const p = products.find(x=>x.id==id);
+    const qty = cart[id];
+    total += p.price * qty;
+    const node = document.createElement('div'); node.className='cart-item';
+    node.innerHTML = `<img src="${p.img}" alt="${p.title}"><div style=\"flex:1\"><strong>${p.title}</strong><div class=\"small\">₹${p.price} × ${qty}</div></div><div><button class=\"ghost\" data-rem=\"${id}\">Remove</button></div>`;
+    itemsWrap.appendChild(node);
+  }
+  el('#cart-total').textContent = '₹'+total;
+  els('[data-rem]').forEach(b=>b.addEventListener('click',()=>{ removeFromCart(b.dataset.rem); }));
+}
+
+// drawer toggle
+el('#open-cart').addEventListener('click', ()=>{
+  const d = el('#cart');
+  if(d.style.display==='none' || d.style.display===''){
+    d.style.display='block'; d.setAttribute('aria-hidden','false');
+  } else { d.style.display='none'; d.setAttribute('aria-hidden','true'); }
+});
+
+el('#clear-cart').addEventListener('click', ()=>{ clearCart(); });
+
+el('#checkout').addEventListener('click', ()=>{
+  alert('Checkout placeholder — integrate payment gateway (Razorpay/Stripe) or redirect to your backend.');
+});
+
+// attach listeners after initial render
+function attachProductListeners(){
+  els('[data-add]').forEach(b=>b.addEventListener('click', ()=>{ addToCart(b.dataset.add); }));
+  els('button[data-id]').forEach(b=>b.addEventListener('click', ()=> openModal(b.dataset.id)));
 }
 attachProductListeners();
 updateCartUI();
 
-
 // modal add to cart
 el('#modal-add').addEventListener('click', ()=>{
-const qty = Number(el('#modal-qty').value || 1);
-addToCart(currentProduct.id, qty);
-closeModal();
+  const qty = Number(el('#modal-qty').value || 1);
+  addToCart(currentProduct.id, qty);
+  closeModal();
 });
-
 
 // quick hero promo image rotation
 (function setPromo(){
-const images = products.map(p=>p.img);
-let i=0; const elp = el('#promo');
-function show(){ elp.style.backgroundImage = `url(${images[i%images.length]})`; i++; }
-show(); setInterval(show,4500);
+  const images = products.map(p=>p.img);
+  let i=0; const elp = el('#promo');
+  function show(){ elp.style.backgroundImage = `url(${images[i%images.length]})`; i++; }
+  show(); setInterval(show,4500);
 })();
-
 
 // theme toggle (light/dim)
 el('#themeToggle').addEventListener('click', ()=>{
-const root = document.documentElement;
-const isDim = root.style.getPropertyValue('--bg') === '#FAFBF8';
-if(isDim){
-// switch to slightly warmer
-root.style.setProperty('--bg','#FFF9F0');
-el('#themeToggle').textContent = '☀️';
-} else {
-root.style.setProperty('--bg','#FAFBF8');
-el('#themeToggle').textContent = '🌙';
-}
+  const root = document.documentElement;
+  const isDim = root.style.getPropertyValue('--bg') === '#FAFBF8';
+  if(isDim){
+    // switch to slightly warmer
+    root.style.setProperty('--bg','#FFF9F0');
+    el('#themeToggle').textContent = '☀️';
+  } else {
+    root.style.setProperty('--bg','#FAFBF8');
+    el('#themeToggle').textContent = '🌙';
+  }
 });
-
 
 // CTA sample quickflow
 el('#cta-sample').addEventListener('click', ()=>{
-// add a few items as a sample pack
-addToCart(1,1); addToCart(3,1); addToCart(5,1);
-el('#open-cart').click();
+  // add a few items as a sample pack
+  addToCart(1,1); addToCart(3,1); addToCart(5,1);
+  el('#open-cart').click();
 });
-
 
 // Wire up modal listeners again after DOM changes
 document.addEventListener('click', (e)=>{
-if(e.target.matches('[data-add]')){
-const id = e.target.dataset.add; addToCart(id);
-}
+  if(e.target.matches('[data-add]')){
+    const id = e.target.dataset.add; addToCart(id);
+  }
 });
-
 
 // ensure product listeners reattach after search/filter
 const observer = new MutationObserver(()=>attachProductListeners());
 observer.observe(el('#products'),{childList:true});
 
-
 </script>
-
 
 <!--
 Customization notes & more options:
-- Replace product images and data in the `products` array.
-- To add categories, update `.filter` chips in HTML and adjust filtering logic.
-- For e-commerce: integrate Razorpay/Stripe checkout in the #checkout handler and connect to serverless functions (Vercel/Netlify) or a backend.
-
+ - Replace product images and data in the `products` array.
+ - To add categories, update `.filter` chips in HTML and adjust filtering logic.
+ - For e-commerce: integrate Razorpay/Stripe checkout in the #checkout handler and connect to serverless functions (Vercel/Netlify) or a backend.
 
 Alternate palettes (quick ideas):
-1) Soft Mint: --accent: #A7F3D0; --accent-600:#6EE7B7; --accent-800:#34D399
-2) Coral Warm: --accent: #FFD6C2; --accent-600:#FFB59E; --accent-800:#FF8A66
-3) Lemon Bright (current): --accent: #F6D365; --accent-600:#F0C541; --accent-800:#CF9A2B
-
+ 1) Soft Mint: --accent: #A7F3D0; --accent-600:#6EE7B7; --accent-800:#34D399
+ 2) Coral Warm: --accent: #FFD6C2; --accent-600:#FFB59E; --accent-800:#FF8A66
+ 3) Lemon Bright (current): --accent: #F6D365; --accent-600:#F0C541; --accent-800:#CF9A2B
 
 Want me to produce a multi-page template (Products page, Product detail pages, CMS JSON) or convert this to a React app (single-file) for Vercel/Netlify? Tell me which and I'll output it.
 -->
-
 
 </body>
 </html>
