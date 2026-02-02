@@ -1,0 +1,21 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <link rel="stylesheet" href="styles/style.css"/>
+</head>
+<body>
+    <div class="wrapper">
+        <h2 class="invitation-question"> Will you be my Valentine? </h2>
+        <h2 class="invitation-date">14th February</h2>
+        <img class="gif" alt="gif" src="https://media.giphy.com/media/FTGah7Mx3ss04PcasF/giphy.gif"/>
+        <div class="btn-group">
+            <button class="yes-btn">Yes</button>
+            
+            <button class="no-btn">No</button>
+        </div>
+    </div>
+    <script src="scripts/displayInvitation.js"></script>
+</body>
+</html>
